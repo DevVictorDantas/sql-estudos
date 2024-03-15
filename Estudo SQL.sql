@@ -248,58 +248,145 @@ select valor_livro from livros where uf_edit = 'SP';
 
 /*Trazer os dados dos autores do sexo masculino que tiveram livros publicados por São Paulo ou Rio de Janeiro (Questão Desafio)*/
 
-select nome_autor, sexo_autor, nome_livro, nome_edit  from livros where uf_edit = 'SP' or uf_edit = 'RJ';
+SELECT AUTOR, SEXO, UF
+FROM LIVROS
+WHERE SEXO = 'M'
+AND UF = 'SP'
+OR UF = 'RJ';
+
+SELECT AUTOR, SEXO, UF
+FROM LIVROS
+WHERE 
+(SEXO = 'M' AND UF = 'SP') OR UF = 'RJ';
+
+SELECT AUTOR, SEXO, UF
+FROM LIVROS
+WHERE SEXO = 'M'
+AND UF = 'SP'
+AND paginas > 100;
+
+/* OPERADORES LÓGICOS 
+OR -> PARA QUE A SAIDA DA QUERY SEJA VERDADEIRA, BASTA QUE APENAS UMA CONDICAO SEJA VERDADEIRA.
+AND -> PARA QUE A SAIDA SEJA VERDADEIRA TODAS AS CONDICOES PRECISAM SER VERDADEIRAS.
+*/
+
+/* OR - OU */
+
+SHOW DATABASES;
+
+USE PROJETO;
+
+SELECT * FROM CLIENTE;
+
+SELECT NOME, SEXO, ENDERECO FROM CLIENTE
+WHERE 
+SEXO = 'M' OR ENDERECO LIKE '%RJ';
+
+SELECT NOME, SEXO, ENDERECO FROM CLIENTE
+WHERE 
+SEXO = 'M' AND ENDERECO LIKE '%RJ';
+
+SELECT NOME, SEXO, ENDERECO  FROM CLIENTE
+WHERE
+SEXO = 'F' OR ENDERECO LIKE '%ESTACIO';
+
+/* AND - E */
+
+SELECT NOME, SEXO, ENDERECO  FROM CLIENTE
+WHERE 
+SEXO = 'M' AND ENDERECO LIKE '%RJ';
+
+SELECT NOME, SEXO, ENDERECO FROM CLIENTE
+WHERE
+SEXO = 'F' AND ENDERECO LIKE '%ESTACIO';
+
+/* COUNT(*), GROUP BY, PERFORMANCE COM OPERADORES
+LOGICOS */
+
+/* CONTANDO OS REGISTROS DE UMA TABLE */
+
+SELECT COUNT(*) AS 'QUANTIDADE DE REGISTROS' FROM CLIENTE;
 
 
+/* OPERADOR GROUP BY */
+
+SELECT COUNT(*) FROM CLIENTE;
+
+SELECT SEXO, COUNT(*) FROM CLIENTE;
+
+/* PERFORMANCE EM OPERADORES LÓGICOS */
+
+/* 1 MILHÃO DE REGISTROS
+
+PARA CONTAR 
+SELECT COUNT(*) FROM CLIENTE;
+
+SELECT SEXO, COUNT(*) FROM CLIENTE
+GROUP BY SEXO;
+
+SELECT CIDADE, COUNT(*) FROM CLIENTE
+GROUP BY CIDADE;
+
+CONDICAO
+SEXO = F
+CIDADE = RIO DE JANEIRO
+
+SITUACAO - TRATANDO COM OU / OR
+70% MULHERES = SEXO = F
+30% MORA NO RIO DE JANEIRO
+
+SELECT NOME, SEXO, ENDERECO FROM CLIENTE WHERE SEXO = 'F' OR CIDADE = 'RIO DE JANEIRO';
+
+SITUACAO - TRATANDO COM E / AND
+70% MULHERES = SEXO = F
+30% MORA NO RIO DE JANEIRO
+
+SELECT NOME, SEXO, ENDERECO FROM CLIENTE WHERE CIDADE = 'RJ' AND SEXO = 'F';
 
 
+/* exercicio */
+
+/* Considerando o que vc aprendeu sobre performance, resolva os exercicios abaixo */
+
+--Traga os funcionarios que trabalhem
+--no departamento de filmes OU no
+--departamento de roupas
+
+-- 21	Filmes 53 roupas
+-- como estamos trabalhando com OR e a segunda condição é opcional
+--colocamos na primeira condição tem mais chances de uma saída 
+--verdadeira, pois a segunda condição não será checada nesse caso.
+
+select count(*), departamento 
+from funcionarios f 
+group by departamento 
+order by 1;
 
 
+select nome, departamento  
+from funcionarios 
+where departamento = 'roupas' 
+or departamento = 'filmes';
 
+--O gestor de marketing pediu a lista das funcionarias (AS) = FEMININO que trabalhem no departamento 
+--de filmes ou no departamento lar. Ele necessita enviar um email para as colaboradoras
+--desses dois setores. OR +  AND *
 
+--491	Feminino  |  52	Lar  |  21	Filmes
 
+select count(*), sexo from funcionarios f group by sexo; 
 
+select count(*), departamento  from funcionarios f group by departamento;
 
+select nome, sexo, departamento  from funcionarios where (departamento = 'lar' and sexo = 'Feminino') or (departamento = 'filmes' and sexo = 'Feminino'); 
 
+--Como estamos trabalhando com AND, colocamos
+--o departamento primeiro, pois ele irá checar a
+--segunda condicao um numero menor de vezez.
 
+--Traga os funcionarios do sexo masculino
+--ou os funcionarios que trabalhem no setor Jardim
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+select count(*), sexo from funcionarios f group by sexo ; 
+select nome, sexo, departamento from funcionarios f where sexo = 'M' or departamento = 'Jardim';
 
