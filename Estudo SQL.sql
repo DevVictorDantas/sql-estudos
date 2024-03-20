@@ -1672,3 +1672,59 @@ SEGUNDO ALGARISMO - CARDINALIDADE
 1 - MAXIMO DE UM
 N - MAIS DE UM
 */
+
+CREATE DATABASE comercio;
+
+use comercio;
+
+create table cliente (
+	idcliente int primary key auto_increment,
+	nome varchar(30) not null,
+	sexo enum('M', 'F') NOT null,
+	email varchar(50) UNIQUE,
+	CPF varchar(15) UNIQUE
+);
+
+create table endereco (
+	idendereco int primary key auto_increment,
+	rua varchar(30) not null,
+	bairro varchar(30) not null,
+	cidade varchar (30) not null,
+	estado char(2) not null
+);
+
+create table telefone (
+	idtelefone int primary key auto_increment,
+	tipo enum('RES', 'COM', 'CEL') not null,
+	numero varchar(10) not null	
+);
+
+/* ENDERECO - OBRIGATORIO
+CADASTRO DE SOMENTE UM.
+
+TELEFONE - NAO OBRIGATORIO
+CADASTRO DE MAIS DE UM (OPCIONAL)
+*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
