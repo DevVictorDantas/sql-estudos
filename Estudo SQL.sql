@@ -1690,13 +1690,19 @@ create table endereco (
 	rua varchar(30) not null,
 	bairro varchar(30) not null,
 	cidade varchar (30) not null,
-	estado char(2) not null
+	estado char(2) not null,
+	id_cliente int UNIQUE,
+	foreign key (id_cliente)
+	references idcliente
 );
 
 create table telefone (
 	idtelefone int primary key auto_increment,
 	tipo enum('RES', 'COM', 'CEL') not null,
-	numero varchar(10) not null	
+	numero varchar(10) not null,
+	id_cliente int,
+	foreign key (id_cliente)
+	references idcliente;
 );
 
 /* ENDERECO - OBRIGATORIO
@@ -1741,7 +1747,54 @@ INSERT INTO TELEFONE VALUES(NULL,'COM','66687899',1);
 INSERT INTO TELEFONE VALUES(NULL,'RES','89986668',5);
 INSERT INTO TELEFONE VALUES(NULL,'CEL','88687909',2);
 
+/* SELECAO, PROJECAO E JUNCAO */
 
+/* PROJECAO -> É TUDO QUE VOCE QUER VER NA TELA */
+
+SELECT NOW() AS DATA_ATUAL;
+
+SELECT 2 + 2 AS SOMA;
+
+SELECT 2 + 2 AS SOMA, NOME, NOW()
+FROM CLIENTE;
+
+/* SELECAO -> É UM SUBCONJUNTO DO CONJUNTO TOTAL DE REGISTROS DE UMA TABELA
+A CLAUSULA DE SELECAO É O WHERE
+*/
+
+SELECT NOME, SEXO, EMAIL /* PROJECAO */
+FROM CLIENTE /* ORIGEM */
+WHERE SEXO = 'F'; /* SELECAO */
+
+SELECT NUMERO /* PROJECAO */
+FROM TELEFONE /* ORIGEM */
+WHERE TIPO = 'CEL'; /* SELECAO */
+
+/* JUNCAO -> JOIN */
+
+/* NOME, SEXO, BAIRRO E CIDADE */
+
+SELECT nome, sexo, bairro, cidade
+from cliente, endereco
+where idcliente = id_cliente;
+
+SELECT nome, sexo, bairro, cidade
+from cliente
+inner join endereco
+on idcliente = id_cliente;
+
+SELECT nome, sexo, bairro, cidade
+from cliente
+inner join endereco
+on idcliente = id_cliente
+where sexo = 'F';
+
+/* NOME, SEXO, EMAIL, TIPO, NUMERO */
+
+select nome, sexo, email, tipo, numero
+from cliente
+inner join telefone
+on idcliente = id_cliente;
 
 
 
