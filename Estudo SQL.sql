@@ -1690,19 +1690,13 @@ create table endereco (
 	rua varchar(30) not null,
 	bairro varchar(30) not null,
 	cidade varchar (30) not null,
-	estado char(2) not null,
-	id_cliente int UNIQUE,
-	foreign key (id_cliente)
-	references idcliente
+	estado char(2) not null
 );
 
 create table telefone (
 	idtelefone int primary key auto_increment,
 	tipo enum('RES', 'COM', 'CEL') not null,
-	numero varchar(10) not null,
-	id_cliente int,
-	foreign key (id_cliente)
-	references idcliente;
+	numero varchar(10) not null	
 );
 
 /* ENDERECO - OBRIGATORIO
@@ -1797,15 +1791,49 @@ inner join telefone
 on idcliente = id_cliente;
 
 
+/* NOME, SEXO, BAIRRO, CIDADE, TIPO, NUMERO */
+
+select nome, sexo, bairro, cidade, tipo, numero
+from cliente
+inner join endereco
+on cliente.idcliente = endereco.id_cliente
+inner join telefone
+on cliente.idcliente = telefone.id_cliente;
+
+/* ambos funcionam */
+
+select cliente.nome, cliente.sexo, endereco.bairro, endereco.cidade, telefone.tipo, telefone.numero
+from cliente
+inner join endereco
+on cliente.idcliente = endereco.id_cliente
+inner join telefone
+on cliente.idcliente = telefone.id_cliente;
 
 
+select nome, sexo, bairro, cidade, tipo, numero
+from cliente c 
+inner join endereco e 
+on idcliente = e.id_cliente 
+inner join telefone t 
+on idcliente = t.id_cliente;
 
+/*
 
+	DML - DATA MANIPULATION LANGUAGE
+	DDL - DATA DEFINITION LANGUAGE
+	DCL - DATA CONTROL LANGUAGE
+	TCL - TRANSACTION CONTROL LANGUAGE
 
+*/
 
+/* INSERT */
 
+INSERT INTO CLIENTE VALUES (NULL, 'PAULA', 'M', NULL, '77437493');
+INSERT INTO endereco VALUES (NULL, 'RUA JOAQUIM SILVA', 'ALVORADA', 'NITEROI', 'RJ', 7);
 
+/* FILTROS */
 
+UPDATE cliente set sexo = 'F' where idcliente = 7;
 
 
 
