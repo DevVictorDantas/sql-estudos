@@ -2018,8 +2018,6 @@ where CPF = '774557887';
 
 /* INVÉS DE FAZER DE UM POR UM É POSSÍVEL FAZER DESSA FORMA:  */
 
-
-
 select idcliente, nome, sexo, email, CPF, 
 	   rua, bairro, cidade, estado, 
 	   tipo, numero
